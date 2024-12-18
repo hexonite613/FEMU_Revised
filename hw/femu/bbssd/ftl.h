@@ -52,7 +52,6 @@ enum {
 #define LUN_BITS    (8)
 #define CH_BITS     (7)
 
-/* describe a physical page addr */
 struct ppa {
     union {
         struct {
@@ -80,10 +79,10 @@ struct nand_page {
 struct nand_block {
     struct nand_page *pg;
     int npgs;
-    int ipc; /* invalid page count */
-    int vpc; /* valid page count */
+    int ipc;
+    int vpc;
     int erase_cnt;
-    int wp; /* current write pointer */
+    int wp;
 };
 
 struct nand_plane {
@@ -106,6 +105,8 @@ struct ssd_channel {
     bool busy;
     uint64_t gc_endtime;
 };
+
+
 
 struct ssdparams {
     int secsz;        /* sector size in bytes */
@@ -175,6 +176,8 @@ struct write_pointer {
     int pl;
 };
 
+
+
 struct line_mgmt {
     struct line *lines;
     /* free line list, we only need to maintain a list of blk numbers */
@@ -200,7 +203,16 @@ struct ssd {
     struct ssd_channel *ch;
     struct ppa *maptbl; /* page level mapping table */
     uint64_t *rmap;     /* reverse mapptbl, assume it's stored in OOB */
+    /*
     struct write_pointer wp;
+    */
+
+    //수정
+    struct write_pointer hot_wp;
+    struct write_pointer cold_wp;
+    uint64_t *lba_write_counts;
+    bool was_hot_data;
+
     struct line_mgmt lm;
 
     /* lockless ring for communication with NVMe IO thread */

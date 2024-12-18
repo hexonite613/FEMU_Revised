@@ -993,7 +993,9 @@ typedef struct NvmeRequest {
 
     /* position in the priority queue for delay emulation */
     size_t                  pos;
-} NvmeRequest;
+
+} 
+NvmeRequest;
 
 typedef struct DMAOff {
     QEMUSGList *qsg;
